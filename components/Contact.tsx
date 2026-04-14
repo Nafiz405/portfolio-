@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { motion } from 'motion/react';
 
 const Contact: React.FC = () => {
   const socials = [
@@ -48,9 +49,15 @@ const Contact: React.FC = () => {
   return (
     <div className="container mx-auto px-6">
       <div className="max-w-6xl mx-auto">
-        <div className="grid md:grid-cols-2 gap-16">
-          <div className="space-y-8">
-            <div className="animate-fade-in">
+        <div className="grid md:grid-cols-2 gap-12 md:gap-16">
+          <motion.div 
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="space-y-8"
+          >
+            <div>
               <h2 className="text-4xl font-bold">Get In <span className="text-red-500">Touch</span></h2>
               <p className="text-neutral-400 mt-4 leading-relaxed">
                 Have a project in mind? Or just want to say hello? 
@@ -59,7 +66,9 @@ const Contact: React.FC = () => {
             </div>
 
             <div className="space-y-4">
-              <a 
+              <motion.a 
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
                 href="mailto:nafiz7664@gmail.com"
                 className="group flex items-center space-x-4 p-4 bg-neutral-900 rounded-xl border border-white/5 hover:border-red-500/30 transition-all block relative overflow-hidden"
               >
@@ -73,7 +82,7 @@ const Contact: React.FC = () => {
                   <p className="text-xs text-neutral-500 uppercase tracking-widest font-bold">Email Me</p>
                   <p className="text-lg font-medium">nafiz7664@gmail.com</p>
                 </div>
-              </a>
+              </motion.a>
             </div>
 
             <div className="pt-6">
@@ -85,9 +94,13 @@ const Contact: React.FC = () => {
               </div>
               
               <div className="flex flex-wrap gap-5">
-                {socials.map((social) => (
-                  <a 
+                {socials.map((social, idx) => (
+                  <motion.a 
                     key={social.name}
+                    initial={{ opacity: 0, scale: 0.5 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: idx * 0.1 }}
                     href={social.href} 
                     target="_blank"
                     rel="noopener noreferrer"
@@ -98,13 +111,19 @@ const Contact: React.FC = () => {
                     <div className="relative z-10 transform group-hover:rotate-[360deg] transition-transform duration-700">
                       {social.icon}
                     </div>
-                  </a>
+                  </motion.a>
                 ))}
               </div>
             </div>
-          </div>
+          </motion.div>
 
-          <div className="bg-neutral-900 p-8 rounded-3xl border border-white/5 relative group">
+          <motion.div 
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="bg-neutral-900 p-8 rounded-3xl border border-white/5 relative group"
+          >
             <div className="absolute -top-4 -right-4 w-32 h-32 bg-red-600 opacity-10 blur-3xl group-hover:opacity-20 transition-opacity duration-700"></div>
             <form className="space-y-6 relative z-10">
               <div className="space-y-2">
@@ -131,15 +150,17 @@ const Contact: React.FC = () => {
                   className="w-full bg-neutral-800/50 border border-white/5 rounded-xl px-4 py-4 focus:outline-none focus:border-red-500 focus:bg-neutral-800 transition-all text-white placeholder:text-neutral-600 resize-none"
                 ></textarea>
               </div>
-              <button 
+              <motion.button 
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
                 type="submit" 
                 className="group w-full py-5 bg-red-600 hover:bg-red-700 text-white font-black uppercase tracking-widest rounded-xl transition-all relative overflow-hidden shadow-xl"
               >
                 <span className="relative z-10">Send Message</span>
                 <div className="absolute inset-0 bg-white/10 translate-x-full group-hover:translate-x-0 transition-transform duration-500"></div>
-              </button>
+              </motion.button>
             </form>
-          </div>
+          </motion.div>
         </div>
       </div>
     </div>

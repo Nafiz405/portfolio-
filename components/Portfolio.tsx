@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 
 interface ProjectMedia {
   type: 'image' | 'video';
@@ -65,17 +66,26 @@ const Portfolio: React.FC = () => {
 
   return (
     <div className="container mx-auto px-6">
-      <div className="text-center mb-16">
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        className="text-center mb-16"
+      >
         <span className="text-red-500 font-bold uppercase tracking-widest text-sm">Portfolio</span>
         <h2 className="text-4xl md:text-5xl font-bold mt-2">Selected Works</h2>
         <div className="w-24 h-1 bg-red-600 mx-auto mt-6"></div>
-      </div>
+      </motion.div>
 
       <div className="flex justify-center">
         <div className="grid md:grid-cols-1 lg:grid-cols-1 max-w-2xl w-full">
           {projects.map((project, index) => (
-            <div 
+            <motion.div 
               key={index} 
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
               className="group relative bg-neutral-900 rounded-2xl overflow-hidden border border-white/5 hover:border-red-500/50 transition-all duration-500 hover:shadow-[0_20px_50px_rgba(239,68,68,0.1)]"
             >
               <div className="aspect-video w-full overflow-hidden">
@@ -96,117 +106,129 @@ const Portfolio: React.FC = () => {
                 >
                   VIEW PROJECT DETAILS 
                   <svg className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7-7m7-7H3" />
                   </svg>
                 </button>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>
 
       {/* Project Modal */}
-      {selectedProject && (
-        <div 
-          className="fixed inset-0 z-[60] flex items-center justify-center p-4 md:p-6"
-        >
-          <div 
-            className="absolute inset-0 bg-black/95 backdrop-blur-md animate-fade-in"
-            onClick={closeModal}
-          ></div>
-          
-          <div className="relative bg-neutral-900 w-full max-w-5xl max-h-[95vh] overflow-y-auto rounded-3xl border border-white/10 shadow-2xl animate-scale-in flex flex-col md:flex-row">
-            {/* Close Button */}
-            <button 
+      <AnimatePresence>
+        {selectedProject && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[60] flex items-center justify-center p-4 md:p-6"
+          >
+            <div 
+              className="absolute inset-0 bg-black/95 backdrop-blur-md"
               onClick={closeModal}
-              className="absolute top-6 right-6 z-30 p-2 bg-black/50 hover:bg-red-600 rounded-full text-white transition-all"
+            ></div>
+            
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              className="relative bg-neutral-900 w-full max-w-5xl max-h-[95vh] overflow-y-auto rounded-3xl border border-white/10 shadow-2xl flex flex-col md:flex-row"
             >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
+              {/* Close Button */}
+              <button 
+                onClick={closeModal}
+                className="absolute top-6 right-6 z-30 p-2 bg-black/50 hover:bg-red-600 rounded-full text-white transition-all"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
 
-            {/* Carousel Area */}
-            <div className="relative w-full md:w-[60%] bg-black flex items-center justify-center min-h-[350px] md:min-h-full group/carousel">
-              <div className="w-full h-full flex items-center justify-center overflow-hidden">
-                {selectedProject.media[currentMediaIndex].type === 'image' ? (
-                  <img 
-                    key={currentMediaIndex}
-                    src={selectedProject.media[currentMediaIndex].url} 
-                    alt={`${selectedProject.title} ${currentMediaIndex + 1}`} 
-                    className="w-full h-full object-contain animate-fade-in"
-                  />
-                ) : (
-                  <video 
-                    key={currentMediaIndex}
-                    src={selectedProject.media[currentMediaIndex].url} 
-                    className="w-full h-full object-contain animate-fade-in"
-                    controls
-                    autoPlay
-                  />
+              {/* Carousel Area */}
+              <div className="relative w-full md:w-[60%] bg-black flex items-center justify-center min-h-[300px] md:min-h-full group/carousel">
+                <div className="w-full h-full flex items-center justify-center overflow-hidden">
+                  <AnimatePresence mode="wait">
+                    {selectedProject.media[currentMediaIndex].type === 'image' ? (
+                      <motion.img 
+                        key={currentMediaIndex}
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: -20 }}
+                        src={selectedProject.media[currentMediaIndex].url} 
+                        alt={`${selectedProject.title} ${currentMediaIndex + 1}`} 
+                        className="w-full h-full object-contain"
+                      />
+                    ) : (
+                      <motion.video 
+                        key={currentMediaIndex}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        src={selectedProject.media[currentMediaIndex].url} 
+                        className="w-full h-full object-contain"
+                        controls
+                        autoPlay
+                      />
+                    )}
+                  </AnimatePresence>
+                </div>
+
+                {selectedProject.media.length > 1 && (
+                  <>
+                    <button onClick={prevMedia} className="absolute left-4 top-1/2 -translate-y-1/2 p-3 bg-black/40 hover:bg-red-600 text-white rounded-full transition-all md:opacity-0 group-hover/carousel:opacity-100 backdrop-blur-sm">
+                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
+                    </button>
+                    <button onClick={nextMedia} className="absolute right-4 top-1/2 -translate-y-1/2 p-3 bg-black/40 hover:bg-red-600 text-white rounded-full transition-all md:opacity-0 group-hover/carousel:opacity-100 backdrop-blur-sm">
+                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+                    </button>
+                  </>
                 )}
               </div>
 
-              {selectedProject.media.length > 1 && (
-                <>
-                  <button onClick={prevMedia} className="absolute left-4 top-1/2 -translate-y-1/2 p-3 bg-black/40 hover:bg-red-600 text-white rounded-full transition-all opacity-0 group-hover/carousel:opacity-100 backdrop-blur-sm">
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
-                  </button>
-                  <button onClick={nextMedia} className="absolute right-4 top-1/2 -translate-y-1/2 p-3 bg-black/40 hover:bg-red-600 text-white rounded-full transition-all opacity-0 group-hover/carousel:opacity-100 backdrop-blur-sm">
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
-                  </button>
-                </>
-              )}
-            </div>
+              {/* Content Area */}
+              <div className="w-full md:w-[40%] p-8 md:p-12 overflow-y-auto space-y-8 bg-neutral-900/50 backdrop-blur-sm">
+                <div className="space-y-4">
+                  <span className="text-red-500 font-bold uppercase tracking-widest text-xs inline-block px-3 py-1 bg-red-600/10 rounded-full">
+                    {selectedProject.category}
+                  </span>
+                  <h2 className="text-3xl md:text-4xl font-bold leading-tight">
+                    {selectedProject.title}
+                  </h2>
+                  <div className="flex items-center space-x-2 text-neutral-500 font-medium">
+                     <span>Client: {selectedProject.client}</span>
+                  </div>
+                </div>
 
-            {/* Content Area */}
-            <div className="w-full md:w-[40%] p-8 md:p-12 overflow-y-auto space-y-8 bg-neutral-900/50 backdrop-blur-sm">
-              <div className="space-y-4">
-                <span className="text-red-500 font-bold uppercase tracking-widest text-xs inline-block px-3 py-1 bg-red-600/10 rounded-full">
-                  {selectedProject.category}
-                </span>
-                <h2 className="text-3xl md:text-4xl font-bold leading-tight">
-                  {selectedProject.title}
-                </h2>
-                <div className="flex items-center space-x-2 text-neutral-500 font-medium">
-                   <span>Client: {selectedProject.client}</span>
+                <div className="space-y-4">
+                  <h4 className="text-sm font-bold text-red-500 uppercase tracking-widest">About the Work</h4>
+                  <p className="text-neutral-400 leading-relaxed text-base md:text-lg">
+                    {selectedProject.description}
+                  </p>
+                </div>
+
+                <div className="space-y-4">
+                  <h4 className="text-sm font-bold text-red-500 uppercase tracking-widest">Expertise Used</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {selectedProject.technologies.map((tech) => (
+                      <span key={tech} className="px-4 py-1.5 bg-neutral-800 border border-white/5 rounded-lg text-xs font-semibold text-neutral-300">
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="pt-8 border-t border-white/5">
+                  <a href={selectedProject.liveUrl} className="w-full inline-flex items-center justify-center px-8 py-4 bg-red-600 hover:bg-red-700 text-white font-bold rounded-2xl transition-all">
+                    View Full Project
+                  </a>
                 </div>
               </div>
-
-              <div className="space-y-4">
-                <h4 className="text-sm font-bold text-red-500 uppercase tracking-widest">About the Work</h4>
-                <p className="text-neutral-400 leading-relaxed text-lg">
-                  {selectedProject.description}
-                </p>
-              </div>
-
-              <div className="space-y-4">
-                <h4 className="text-sm font-bold text-red-500 uppercase tracking-widest">Expertise Used</h4>
-                <div className="flex flex-wrap gap-2">
-                  {selectedProject.technologies.map((tech) => (
-                    <span key={tech} className="px-4 py-1.5 bg-neutral-800 border border-white/5 rounded-lg text-xs font-semibold text-neutral-300">
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              <div className="pt-8 border-t border-white/5">
-                <a href={selectedProject.liveUrl} className="w-full inline-flex items-center justify-center px-8 py-4 bg-red-600 hover:bg-red-700 text-white font-bold rounded-2xl transition-all">
-                  View Full Project
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-      
-      <style>{`
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes scaleIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
-        .animate-fade-in { animation: fadeIn 0.4s ease-out forwards; }
-        .animate-scale-in { animation: scaleIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-      `}</style>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

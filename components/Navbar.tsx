@@ -1,8 +1,10 @@
 
 import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 
 const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -12,10 +14,17 @@ const Navbar: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const navLinks = [
+    { name: 'Home', href: '#home' },
+    { name: 'About', href: '#about' },
+    { name: 'Portfolio', href: '#portfolio' },
+    { name: 'Contact', href: '#contact' },
+  ];
+
   return (
     <nav 
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
-        isScrolled ? 'bg-neutral-950/90 backdrop-blur-xl border-b border-red-500/10 py-4' : 'bg-transparent py-8'
+        isScrolled || isMobileMenuOpen ? 'bg-neutral-950/90 backdrop-blur-xl border-b border-red-500/10 py-4' : 'bg-transparent py-8'
       }`}
     >
       <div className="container mx-auto px-6 flex justify-between items-center">
@@ -23,21 +32,29 @@ const Navbar: React.FC = () => {
         <div className="group relative">
           <a href="#home" className="flex flex-col md:flex-row md:items-center space-y-0 md:space-x-4">
             <div className="flex items-center">
-              <span className="text-2xl md:text-3xl font-black tracking-[0.2em] uppercase leading-none">
+              <span className="text-xl md:text-3xl font-black tracking-[0.2em] uppercase leading-none">
                 Md. Nafiz
               </span>
               <div className="h-8 w-[2px] bg-red-600 mx-4 hidden md:block group-hover:scale-y-125 transition-transform duration-500"></div>
             </div>
-            <span className="text-2xl md:text-3xl font-light tracking-[0.4em] uppercase text-red-500/80 group-hover:text-red-500 transition-colors duration-500">
+            <span className="text-xl md:text-3xl font-light tracking-[0.4em] uppercase text-red-500/80 group-hover:text-red-500 transition-colors duration-500">
               Iqbal
             </span>
           </a>
-          {/* Subtle Accent Line */}
           <div className="absolute -bottom-2 left-0 w-0 h-[1px] bg-gradient-to-r from-red-600 to-transparent group-hover:w-full transition-all duration-700"></div>
         </div>
 
-        {/* Action Button - Still helpful for UX, but separated from main nav links */}
-        <div className="flex items-center">
+        {/* Desktop Nav Links */}
+        <div className="hidden lg:flex items-center space-x-8">
+          {navLinks.map((link) => (
+            <a 
+              key={link.name}
+              href={link.href}
+              className="text-xs font-bold tracking-widest uppercase text-neutral-400 hover:text-red-500 transition-colors"
+            >
+              {link.name}
+            </a>
+          ))}
           <a 
             href="#contact" 
             className="relative px-8 py-3 overflow-hidden group rounded-full border border-red-500/30 bg-neutral-900/50 backdrop-blur-sm"
@@ -48,7 +65,51 @@ const Navbar: React.FC = () => {
             </span>
           </a>
         </div>
+
+        {/* Mobile Menu Toggle */}
+        <button 
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          className="lg:hidden p-2 text-white focus:outline-none"
+        >
+          <div className="w-6 h-5 relative flex flex-col justify-between">
+            <span className={`w-full h-0.5 bg-white transition-all duration-300 ${isMobileMenuOpen ? 'rotate-45 translate-y-2' : ''}`}></span>
+            <span className={`w-full h-0.5 bg-white transition-all duration-300 ${isMobileMenuOpen ? 'opacity-0' : ''}`}></span>
+            <span className={`w-full h-0.5 bg-white transition-all duration-300 ${isMobileMenuOpen ? '-rotate-45 -translate-y-2' : ''}`}></span>
+          </div>
+        </button>
       </div>
+
+      {/* Mobile Menu Overlay */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div 
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            className="lg:hidden bg-neutral-950 border-t border-red-500/10 overflow-hidden"
+          >
+            <div className="container mx-auto px-6 py-8 flex flex-col space-y-6">
+              {navLinks.map((link) => (
+                <a 
+                  key={link.name}
+                  href={link.href}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="text-2xl font-black tracking-widest uppercase text-neutral-400 hover:text-red-500 transition-colors"
+                >
+                  {link.name}
+                </a>
+              ))}
+              <a 
+                href="#contact" 
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="inline-block px-8 py-4 bg-red-600 text-white font-black tracking-widest uppercase rounded-xl text-center"
+              >
+                Get in Touch
+              </a>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </nav>
   );
 };
