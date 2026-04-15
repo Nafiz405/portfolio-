@@ -102,7 +102,7 @@ const Portfolio: React.FC = () => {
                 
                 <button 
                   onClick={() => setSelectedProject(project)}
-                  className="mt-6 flex items-center text-sm font-bold text-white/50 group-hover:text-white transition-colors cursor-pointer focus:outline-none"
+                  className="mt-6 flex items-center text-sm font-bold text-white/70 md:text-white/50 group-hover:text-white transition-colors cursor-pointer focus:outline-none px-4 py-2 bg-white/5 rounded-lg md:bg-transparent md:p-0"
                 >
                   VIEW PROJECT DETAILS 
                   <svg className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -177,12 +177,23 @@ const Portfolio: React.FC = () => {
 
                 {selectedProject.media.length > 1 && (
                   <>
-                    <button onClick={prevMedia} className="absolute left-4 top-1/2 -translate-y-1/2 p-3 bg-black/40 hover:bg-red-600 text-white rounded-full transition-all md:opacity-0 group-hover/carousel:opacity-100 backdrop-blur-sm">
+                    <button onClick={prevMedia} className="absolute left-4 top-1/2 -translate-y-1/2 p-3 bg-black/40 hover:bg-red-600 text-white rounded-full transition-all md:opacity-0 group-hover/carousel:opacity-100 backdrop-blur-sm z-20">
                       <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
                     </button>
-                    <button onClick={nextMedia} className="absolute right-4 top-1/2 -translate-y-1/2 p-3 bg-black/40 hover:bg-red-600 text-white rounded-full transition-all md:opacity-0 group-hover/carousel:opacity-100 backdrop-blur-sm">
+                    <button onClick={nextMedia} className="absolute right-4 top-1/2 -translate-y-1/2 p-3 bg-black/40 hover:bg-red-600 text-white rounded-full transition-all md:opacity-0 group-hover/carousel:opacity-100 backdrop-blur-sm z-20">
                       <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
                     </button>
+                    
+                    {/* Dot Indicators */}
+                    <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex space-x-2 z-20">
+                      {selectedProject.media.map((_, idx) => (
+                        <button
+                          key={idx}
+                          onClick={() => setCurrentMediaIndex(idx)}
+                          className={`w-2 h-2 rounded-full transition-all ${idx === currentMediaIndex ? 'bg-red-600 w-6' : 'bg-white/30 hover:bg-white/50'}`}
+                        />
+                      ))}
+                    </div>
                   </>
                 )}
               </div>

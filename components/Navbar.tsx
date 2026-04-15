@@ -82,10 +82,10 @@ const Navbar: React.FC = () => {
         {/* Mobile Menu Toggle */}
         <button 
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="lg:hidden p-2 text-white focus:outline-none z-[110]"
+          className="lg:hidden p-2.5 bg-neutral-900 border border-white/10 rounded-lg text-red-500 z-[110] shadow-lg active:scale-95 transition-transform"
           aria-label="Toggle Menu"
         >
-          {isMobileMenuOpen ? <X size={28} className="text-red-500" /> : <Menu size={28} />}
+          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
       </div>
 
@@ -93,13 +93,12 @@ const Navbar: React.FC = () => {
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div 
-            initial={{ opacity: 0, x: '100%' }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: '100%' }}
-            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="fixed inset-0 lg:hidden bg-neutral-950 z-[90] flex flex-col justify-center items-center"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="fixed inset-0 lg:hidden bg-neutral-950 z-[105] flex flex-col justify-center items-center h-screen w-screen px-6"
           >
-            <div className="flex flex-col space-y-8 text-center">
+            <div className="flex flex-col space-y-4 w-full max-w-sm text-center">
               {navLinks.map((link, index) => (
                 <motion.a 
                   key={link.name}
@@ -108,9 +107,10 @@ const Navbar: React.FC = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="text-4xl font-black tracking-[0.2em] uppercase text-neutral-400 hover:text-red-500 transition-colors"
+                  className="group relative py-4 px-6 bg-neutral-900/50 border border-white/5 rounded-2xl text-xl font-bold tracking-[0.2em] uppercase text-white hover:text-red-500 hover:border-red-500/30 transition-all flex items-center justify-center space-x-4"
                 >
-                  {link.name}
+                  <span className="w-1.5 h-1.5 bg-red-600 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                  <span>{link.name}</span>
                 </motion.a>
               ))}
               <motion.a 
@@ -119,18 +119,11 @@ const Navbar: React.FC = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: navLinks.length * 0.1 }}
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="mt-8 px-10 py-5 bg-red-600 text-white font-black tracking-widest uppercase rounded-full text-xl flex items-center space-x-3"
+                className="mt-6 px-8 py-5 bg-red-600 text-white font-black tracking-widest uppercase rounded-2xl text-lg flex items-center justify-center space-x-3 shadow-[0_10px_30px_rgba(220,38,38,0.3)] active:scale-95 transition-transform"
               >
                 <span>Get in Touch</span>
-                <ArrowRight size={24} />
+                <ArrowRight size={22} />
               </motion.a>
-            </div>
-            
-            {/* Background Decoration */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 opacity-10 pointer-events-none">
-              <span className="text-[20vw] font-black text-red-600 uppercase tracking-tighter select-none">
-                NAFIZ
-              </span>
             </div>
           </motion.div>
         )}
