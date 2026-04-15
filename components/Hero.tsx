@@ -95,6 +95,17 @@ const Hero: React.FC = () => {
               </div>
               <h3 className="text-lg font-bold text-white">Graphic Design</h3>
               <p className="text-neutral-500 text-xs mt-2 leading-relaxed">Branding, Logos & Social Media Content</p>
+              <a 
+                href="https://lh3.googleusercontent.com/d/11xixht3-QPXZVvIX5p4c0pWMcKFZQmDn" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="mt-4 inline-flex items-center text-[10px] font-bold text-red-500 hover:text-red-400 transition-colors uppercase tracking-widest"
+              >
+                View Certificate
+                <svg className="w-3 h-3 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+              </a>
             </motion.div>
 
             {/* Skill Card 2 */}
@@ -123,6 +134,17 @@ const Hero: React.FC = () => {
               </div>
               <h3 className="text-lg font-bold text-white">AI Workflow</h3>
               <p className="text-neutral-500 text-xs mt-2 leading-relaxed">Leveraging AI for Modern Creative Edge</p>
+              <a 
+                href="https://lh3.googleusercontent.com/d/1s-XIf1LY1prIptTbYxVJeBplze0P3K8Q" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="mt-4 inline-flex items-center text-[10px] font-bold text-red-500 hover:text-red-400 transition-colors uppercase tracking-widest"
+              >
+                View Certificate
+                <svg className="w-3 h-3 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+              </a>
             </motion.div>
 
             {/* Skill Card 4 */}
@@ -137,6 +159,17 @@ const Hero: React.FC = () => {
               </div>
               <h3 className="text-lg font-bold text-white">C Programming</h3>
               <p className="text-neutral-500 text-xs mt-2 leading-relaxed">Logical Structure & Problem Solving</p>
+              <a 
+                href="https://lh3.googleusercontent.com/d/1TFtZs3z6WBb3fTk3bJ_rHHhWVPPsH0-x" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="mt-4 inline-flex items-center text-[10px] font-bold text-red-500 hover:text-red-400 transition-colors uppercase tracking-widest"
+              >
+                View Certificate
+                <svg className="w-3 h-3 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+              </a>
             </motion.div>
 
             {/* Wide Skill Card */}
@@ -150,10 +183,21 @@ const Hero: React.FC = () => {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
               </div>
-              <div>
+              <div className="flex-1">
                 <h3 className="text-xl font-bold text-white">Mobile Photography</h3>
                 <p className="text-neutral-500 text-sm mt-1">Capturing Perspective, Composition & Lighting</p>
               </div>
+              <a 
+                href="https://lh3.googleusercontent.com/d/1qkuI5VbQTdCaJ2r9d5pSeescQLVghRYa" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="inline-flex items-center text-[10px] font-bold text-red-500 hover:text-red-400 transition-colors uppercase tracking-widest"
+              >
+                View Certificate
+                <svg className="w-3 h-3 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+              </a>
             </motion.div>
           </div>
         </motion.div>

@@ -122,6 +122,60 @@ const About: React.FC = () => {
           </motion.div>
         </div>
 
+        {/* Certificates Section */}
+        <div className="space-y-12">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center"
+          >
+            <span className="text-red-500 font-bold uppercase tracking-[0.3em] text-sm">Recognition</span>
+            <h2 className="text-4xl font-black mt-2">Certifications</h2>
+            <div className="w-24 h-1 bg-red-600 mx-auto mt-6"></div>
+          </motion.div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              { title: "Graphic Design", img: "https://lh3.googleusercontent.com/d/11xixht3-QPXZVvIX5p4c0pWMcKFZQmDn" },
+              { title: "Basic AI", img: "https://lh3.googleusercontent.com/d/1s-XIf1LY1prIptTbYxVJeBplze0P3K8Q" },
+              { title: "C Programming", img: "https://lh3.googleusercontent.com/d/1TFtZs3z6WBb3fTk3bJ_rHHhWVPPsH0-x" },
+              { title: "Mobile Photography", img: "https://lh3.googleusercontent.com/d/1qkuI5VbQTdCaJ2r9d5pSeescQLVghRYa" }
+            ].map((cert, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: idx * 0.1 }}
+                className="group relative aspect-[4/3] overflow-hidden rounded-2xl border border-white/5 bg-neutral-900"
+              >
+                <img 
+                  src={cert.img} 
+                  alt={cert.title}
+                  className="w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700"
+                  referrerPolicy="no-referrer"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-100 transition-opacity"></div>
+                <div className="absolute bottom-4 left-4 right-4">
+                  <p className="text-xs font-bold text-red-500 uppercase tracking-widest mb-1">{cert.title}</p>
+                  <a 
+                    href={cert.img} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-[10px] text-white/70 hover:text-white transition-colors flex items-center"
+                  >
+                    VIEW FULL SIZE
+                    <svg className="w-3 h-3 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                  </a>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+
         {/* Final Vision Section */}
         <motion.div 
           initial={{ opacity: 0, scale: 0.95 }}
