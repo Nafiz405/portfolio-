@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import { Menu, X, ArrowRight } from 'lucide-react';
 
 const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -14,6 +15,18 @@ const Navbar: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isMobileMenuOpen]);
+
   const navLinks = [
     { name: 'Home', href: '#home' },
     { name: 'About', href: '#about' },
@@ -23,8 +36,8 @@ const Navbar: React.FC = () => {
 
   return (
     <nav 
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
-        isScrolled || isMobileMenuOpen ? 'bg-neutral-950/90 backdrop-blur-xl border-b border-red-500/10 py-4' : 'bg-transparent py-8'
+      className={`fixed top-0 left-0 w-full z-[100] transition-all duration-500 ${
+        isScrolled || isMobileMenuOpen ? 'bg-neutral-950/95 backdrop-blur-xl border-b border-red-500/20 py-4' : 'bg-transparent py-8'
       }`}
     >
       <div className="container mx-auto px-6 flex justify-between items-center">
@@ -69,13 +82,10 @@ const Navbar: React.FC = () => {
         {/* Mobile Menu Toggle */}
         <button 
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="lg:hidden p-2 text-white focus:outline-none"
+          className="lg:hidden p-2 text-white focus:outline-none z-[110]"
+          aria-label="Toggle Menu"
         >
-          <div className="w-6 h-5 relative flex flex-col justify-between">
-            <span className={`w-full h-0.5 bg-white transition-all duration-300 ${isMobileMenuOpen ? 'rotate-45 translate-y-2' : ''}`}></span>
-            <span className={`w-full h-0.5 bg-white transition-all duration-300 ${isMobileMenuOpen ? 'opacity-0' : ''}`}></span>
-            <span className={`w-full h-0.5 bg-white transition-all duration-300 ${isMobileMenuOpen ? '-rotate-45 -translate-y-2' : ''}`}></span>
-          </div>
+          {isMobileMenuOpen ? <X size={28} className="text-red-500" /> : <Menu size={28} />}
         </button>
       </div>
 
@@ -83,29 +93,44 @@ const Navbar: React.FC = () => {
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div 
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="lg:hidden bg-neutral-950 border-t border-red-500/10 overflow-hidden"
+            initial={{ opacity: 0, x: '100%' }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: '100%' }}
+            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+            className="fixed inset-0 lg:hidden bg-neutral-950 z-[90] flex flex-col justify-center items-center"
           >
-            <div className="container mx-auto px-6 py-8 flex flex-col space-y-6">
-              {navLinks.map((link) => (
-                <a 
+            <div className="flex flex-col space-y-8 text-center">
+              {navLinks.map((link, index) => (
+                <motion.a 
                   key={link.name}
                   href={link.href}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="text-2xl font-black tracking-widest uppercase text-neutral-400 hover:text-red-500 transition-colors"
+                  className="text-4xl font-black tracking-[0.2em] uppercase text-neutral-400 hover:text-red-500 transition-colors"
                 >
                   {link.name}
-                </a>
+                </motion.a>
               ))}
-              <a 
+              <motion.a 
                 href="#contact" 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: navLinks.length * 0.1 }}
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="inline-block px-8 py-4 bg-red-600 text-white font-black tracking-widest uppercase rounded-xl text-center"
+                className="mt-8 px-10 py-5 bg-red-600 text-white font-black tracking-widest uppercase rounded-full text-xl flex items-center space-x-3"
               >
-                Get in Touch
-              </a>
+                <span>Get in Touch</span>
+                <ArrowRight size={24} />
+              </motion.a>
+            </div>
+            
+            {/* Background Decoration */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 opacity-10 pointer-events-none">
+              <span className="text-[20vw] font-black text-red-600 uppercase tracking-tighter select-none">
+                NAFIZ
+              </span>
             </div>
           </motion.div>
         )}
