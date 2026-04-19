@@ -37,6 +37,20 @@ const Portfolio: React.FC = () => {
 
   const projects: Project[] = [
     {
+      title: "HSC Track",
+      category: 'Web Application',
+      client: "Personal Project",
+      image: 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&q=80&w=1200',
+      media: [
+        { type: 'image', url: 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&q=80&w=1200' },
+        { type: 'image', url: 'https://images.unsplash.com/photo-1513258496099-48168024aec0?auto=format&fit=crop&q=80&w=1200' },
+        { type: 'image', url: 'https://images.unsplash.com/photo-1517842645767-c639042777db?auto=format&fit=crop&q=80&w=1200' }
+      ],
+      description: 'A dedicated educational platform designed to help HSC students track their academic progress, manage study schedules, and access vital resources. The platform features a clean, focused UI to minimize distractions and maximize productivity.',
+      technologies: ['React', 'Vite', 'Tailwind CSS', 'Framer Motion', 'Educational Tech'],
+      liveUrl: 'https://hsctrack.netlify.app'
+    },
+    {
       title: "Yummy Bake's Villa",
       category: 'Brand Identity',
       client: "Yummy Bake's Villa",
@@ -78,7 +92,7 @@ const Portfolio: React.FC = () => {
       </motion.div>
 
       <div className="flex justify-center">
-        <div className="grid md:grid-cols-1 lg:grid-cols-1 max-w-2xl w-full">
+        <div className="grid md:grid-cols-2 gap-8 w-full">
           {projects.map((project, index) => (
             <motion.div 
               key={index} 
